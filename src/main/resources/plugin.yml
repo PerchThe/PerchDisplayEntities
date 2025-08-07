@@ -1,10 +1,10 @@
-name: ${project.name}
+name: PerchDisplayEntities
 main: ${groupId}.${project.name}
-version: "${project.version}"
-author: emanon
+version: "1.0.0"
+author: [ emanon,KayaLambrex ]
 api-version: 1.19
 folia-supported: true
-softdepend: [ Vault,SuperVanish,PremiumVanish,PlaceHolderAPI ]
+softdepend: [ Vault,SuperVanish,PremiumVanish,PlaceHolderAPI,GriefPrevention ]
 
 libraries:
   - net.kyori:adventure-api:4.16.0
@@ -14,68 +14,60 @@ libraries:
   - net.kyori:adventure-text-serializer-legacy:4.16.0
 
 commands:
-  displayeditor:
+  DisplayEntities:
     description: allows to edit item in hand
-    usage: /displayeditor
+    usage: /DisplayEntities
     aliases: [ de ]
-  displayeditorinfo:
-    description: display info of displayeditor
-    usage: /displayeditorinfo
-  displayeditorreload:
+  DisplayEntitiesinfo:
+    description: display info of DisplayEntities
+    usage: /DisplayEntitiesinfo
+  DisplayEntitiesreload:
     description: reload configurations
-    usage: /displayeditorreload
+    usage: /DisplayEntitiesreload
 permissions:
-  displayeditor.admin:
+  DisplayEntities.admin:
     default: op
     description: Gives full access to the plugin
     children:
-      displayeditor.displayeditorreload: true
-      displayeditor.displayeditorinfo: true
-      displayeditor.bypass.*: true
-  displayeditor.creativeuser:
+      DisplayEntities.DisplayEntitiesreload: true
+      DisplayEntities.DisplayEntitiesinfo: true
+      DisplayEntities.bypass.*: true
+  DisplayEntities.creativeuser:
     default: op
     description: Gives full access to the plugin
     children:
-      displayeditor.displayeditor.*: true
-  displayeditor.displayeditor.*:
+      DisplayEntities.*: true
+  DisplayEntities.*:
     default: op
     description: Gives full access to the plugin
     children:
-      displayeditor.displayeditor.create: true
-      displayeditor.displayeditor.delete: true
-      displayeditor.displayeditor.deselect: true
-      displayeditor.displayeditor.editormode: true
-      displayeditor.displayeditor.select: true
-      displayeditor.displayeditor.settext: true
-  displayeditor.displayeditor.create:
+      DisplayEntities.create: true
+      DisplayEntities.delete: true
+      DisplayEntities.deselect: true
+      DisplayEntities.editor: true
+      DisplayEntities.select: true
+      DisplayEntities.settext: true
+  DisplayEntities.create:
     default: op
     description: Create new display editors
-  displayeditor.displayeditor.delete:
+  DisplayEntities.delete:
     default: op
     description: Delect current selected display
-  displayeditor.displayeditor.select:
+  DisplayEntities.select:
     default: op
     description: Select nearest display
-  displayeditor.displayeditor.deselect:
+  DisplayEntities.deselect:
     default: op
     description: Deselect current selected display
-  displayeditor.displayeditor.editormode:
+  DisplayEntities.editor:
     default: op
     description: Open the editor mode
-  displayeditor.displayeditor.settext:
+  DisplayEntities.settext:
     default: op
     description: Ability to change text of selected display text
-  displayeditor.bypass.*:
+  DisplayEntities.DisplayEntitiesinfo:
     default: op
-    description: Gives full access to the plugin
-    children:
-      displayeditor.bypass.censure: true
-  displayeditor.bypass.censure:
+    description: Gives full access to command /DisplayEntitiesinfo
+  DisplayEntities.DisplayEntitiesreload:
     default: op
-    description: Bypass words restrictions when editing display text
-  displayeditor.displayeditorinfo:
-    default: op
-    description: Gives full access to command /displayeditorinfo
-  displayeditor.displayeditorreload:
-    default: op
-    description: Gives full access to command /displayeditorreload
+    description: Gives full access to command /DisplayEntitiesreload

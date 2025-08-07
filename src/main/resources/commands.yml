@@ -1,12 +1,12 @@
-displayeditor:
+DisplayEntities:
   create:
     name: 'create'
   select:
     name: 'select'
   deselect:
     name: 'deselect'
-  editormode:
-    name: 'editormode'
+  editor:
+    name: 'editor'
   delete:
     name: 'delete'
   settext:

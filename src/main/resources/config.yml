@@ -18,7 +18,7 @@ language:
   regen_files: true
 editor:
   #Exit editor mode when hit by a player or a mob
-  exit_editormode_when_hit: true
+  exit_editor_when_hit: true
   #Show action bar message when you are on editor mode
   actionbar_reminder: true
   #Maximus distance from the item where you still are able to edit it

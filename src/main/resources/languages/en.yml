@@ -1,10 +1,10 @@
-player-only: '&4[&cDisplayEditor&4] &cCommand for Players only'
-no-item-on-hand: '&4[&cDisplayEditor&4] &cYou need to hold an item in hand'
-lack-permission: '&4[&cDisplayEditor&4] &cYou lack of permission %permission%'
-lack-permission-generic: '&4[&cDisplayEditor&4] &cYou don''t have permission to use
+player-only: '&4[&cDisplayEntities&4] &cCommand for Players only'
+no-item-on-hand: '&4[&cDisplayEntities&4] &cYou need to hold an item in hand'
+lack-permission: '&4[&cDisplayEntities&4] &cYou lack of permission %permission%'
+lack-permission-generic: '&4[&cDisplayEntities&4] &cYou don''t have permission to use
   this command'
-displayeditor:
-  help-header: '&9&lDisplayEditor - Help'
+DisplayEntities:
+  help-header: '&9&lDisplayEntities - Help'
   create:
     description:
       - '&b&lCreate a New Display Entity'
@@ -15,19 +15,19 @@ displayeditor:
       - '  &bor of the item in your hand'
       - '&etext [line] &b- create a text display'
     params: '{item/block/text}'
-    wrong-item-type: '&4[&cDisplayEditor&4] &cType must be an item'
-    wrong-block-type: '&4[&cDisplayEditor&4] &cType must be a block'
-    success-block: '&9[&fDisplayEditor&9] &aBlock Display created and selected'
-    success-item: '&9[&fDisplayEditor&9] &aItem Display created and selected'
-    success-text: '&9[&fDisplayEditor&9] &aText Display created and selected'
+    wrong-item-type: '&4[&cDisplayEntities&4] &cType must be an item'
+    wrong-block-type: '&4[&cDisplayEntities&4] &cType must be a block'
+    success-block: '&9[&fDisplayEntities&9] &aBlock Display created and selected'
+    success-item: '&9[&fDisplayEntities&9] &aItem Display created and selected'
+    success-text: '&9[&fDisplayEntities&9] &aText Display created and selected'
   delete:
     description:
       - '&b&lDelete Selected Display Entity'
       - ''
       - '&cPermanently delete'
     params: ''
-    success: '&9[&fDisplayEditor&9] &aDeleted selected entity'
-    none-selected: '&4[&cDisplayEditor&4] &cNo Display is selected'
+    success: '&9[&fDisplayEntities&9] &aDeleted selected entity'
+    none-selected: '&4[&cDisplayEntities&4] &cNo Display is selected'
   select:
     description:
       - '&b&lSelect Display Entity'
@@ -37,27 +37,27 @@ displayeditor:
       - '&bdefault radius is 8'
       - '&bid of the entity is the entity uuid (suggested by tab completer)'
     params: '[radius/id]'
-    invalid-radius: '&4[&cDisplayEditor&4] &cInvalid Radius, must be a positive number'
-    invalid-radius-or-uuid: '&4[&cDisplayEditor&4] &cInvalid Radius or Id argument'
-    entity-uuid-not-found: '&4[&cDisplayEditor&4] &cNo matching entity with selected Id'
-    none-found: '&4[&cDisplayEditor&4] &cNo Display was found around you'
-    success: '&9[&fDisplayEditor&9] &aSelected entity'
+    invalid-radius: '&4[&cDisplayEntities&4] &cInvalid Radius, must be a positive number'
+    invalid-radius-or-uuid: '&4[&cDisplayEntities&4] &cInvalid Radius or Id argument'
+    entity-uuid-not-found: '&4[&cDisplayEntities&4] &cNo matching entity with selected Id'
+    none-found: '&4[&cDisplayEntities&4] &cNo Display was found around you'
+    success: '&9[&fDisplayEntities&9] &aSelected entity'
   deselect:
     description:
       - '&b&lDeselect Display Entity'
       - ''
     params: ''
-    success: '&9[&fDisplayEditor&9] &aDeselected entity'
-    none-selected: '&4[&cDisplayEditor&4] &cNo Display is selected'
-  editormode:
+    success: '&9[&fDisplayEntities&9] &aDeselected entity'
+    none-selected: '&4[&cDisplayEntities&4] &cNo Display is selected'
+  editor:
     description:
-      - '&b&lSwitch to EditorMode'
+      - '&b&lSwitch to editor'
       - ''
       - '&e[mode] &b- editor mode by default toggle'
     params: '[mode]'
-    success-enabled: '&9[&fDisplayEditor&9] &aEnabled EditorMode'
-    success-disabled: '&9[&fDisplayEditor&9] &aDisabled EditorMode'
-    wrong-type: '&4[&cDisplayEditor&4] &cInvalid EditorMode'
+    success-enabled: '&9[&fDisplayEntities&9] &aEnabled editor'
+    success-disabled: '&9[&fDisplayEntities&9] &aDisabled editor'
+    wrong-type: '&4[&cDisplayEntities&4] &cInvalid editor'
   setitem:
     description:
       - '&b&lSet Item for ItemDisplays'
@@ -66,11 +66,11 @@ displayeditor:
       - '&bif item type is not specified item in'
       - '&byour hand is used'
     params: '[material]'
-    wrong-type: '&4[&cDisplayEditor&4] &cSelected display is not a Item Display'
-    none-selected: '&4[&cDisplayEditor&4] &cNo Display is selected'
-    not-existing-material: '&4[&cDisplayEditor&4] &cMaterial &6%material% &cdo not exist'
-    invalid-material: '&4[&cDisplayEditor&4] &cMaterial &6%material% &cis not an item'
-    success: '&9[&fDisplayEditor&9] &aItem Updated'
+    wrong-type: '&4[&cDisplayEntities&4] &cSelected display is not a Item Display'
+    none-selected: '&4[&cDisplayEntities&4] &cNo Display is selected'
+    not-existing-material: '&4[&cDisplayEntities&4] &cMaterial &6%material% &cdo not exist'
+    invalid-material: '&4[&cDisplayEntities&4] &cMaterial &6%material% &cis not an item'
+    success: '&9[&fDisplayEntities&9] &aItem Updated'
   setblock:
     description:
       - '&b&lSet Block for BlockDisplays'
@@ -79,20 +79,20 @@ displayeditor:
       - '&bif block type is not specified the block'
       - '&byou are looking at is used'
     params: '[material]'
-    wrong-type: '&4[&cDisplayEditor&4] &cSelected display is not a Block Display'
-    none-selected: '&4[&cDisplayEditor&4] &cNo Display is selected'
-    not-existing-material: '&4[&cDisplayEditor&4] &cMaterial &6%material% &cdo not exist'
-    invalid-material: '&4[&cDisplayEditor&4] &cMaterial &6%material% &cis not a block'
-    success: '&9[&fDisplayEditor&9] &aBlock Updated'
+    wrong-type: '&4[&cDisplayEntities&4] &cSelected display is not a Block Display'
+    none-selected: '&4[&cDisplayEntities&4] &cNo Display is selected'
+    not-existing-material: '&4[&cDisplayEntities&4] &cMaterial &6%material% &cdo not exist'
+    invalid-material: '&4[&cDisplayEntities&4] &cMaterial &6%material% &cis not a block'
+    success: '&9[&fDisplayEntities&9] &aBlock Updated'
   settext:
     description:
       - '&b&lSet Text for TextDisplays'
       - ''
       - '&e[text] &b- Text to set'
     params: '[text]'
-    wrong-type: '&4[&cDisplayEditor&4] &cSelected display is not a Text Display'
-    none-selected: '&4[&cDisplayEditor&4] &cNo Display is selected'
-    success: '&9[&fDisplayEditor&9] &aText Updated'
+    wrong-type: '&4[&cDisplayEntities&4] &cSelected display is not a Text Display'
+    none-selected: '&4[&cDisplayEntities&4] &cNo Display is selected'
+    success: '&9[&fDisplayEntities&9] &aText Updated'
 editor:
   reminder: "&6You are on (Display) Editor Mode"
   all:
@@ -102,7 +102,7 @@ editor:
       - ''
       - '&bYou can also change page by pressing F'
     exit:
-      - '&6Exit EditorMode'
+      - '&6Exit editor'
     select:
       - '&6Select Nearest Display'
       - '&bAny &9➤ &bSelect nearest Display'
@@ -211,8 +211,8 @@ editor:
       - '&bRight &9➤ &bIncrease by 16'
       - '&bShift+Left &9➤ &bDecrease by 1'
       - '&bShift+Right &9➤ &bIncrease by 1'
-    text_background_green:
-      - '&6Change the amount of Green on Background (Current: &e%value%&6)'
+    text_background_GOLD:
+      - '&6Change the amount of GOLD on Background (Current: &e%value%&6)'
       - '&bLeft &9➤ &bDecrease by 16'
       - '&bRight &9➤ &bIncrease by 16'
       - '&bShift+Left &9➤ &bDecrease by 1'
@@ -453,8 +453,8 @@ editor:
       - '&6Change paste rotation degrees (Current: &e%value%&6°)'
       - '&bLeft/Right &9➤ &bRotate by 90°'
       - '&bShift Left/Right &9➤ &bRotate by 5°'
-displayeditorreload:
-  success: '&9[&fDisplayEditor&9] &aReloaded'
+DisplayEntitiesreload:
+  success: '&9[&fDisplayEntities&9] &aReloaded'
 gui:
   select_item:
     title: "&9Select Item"
