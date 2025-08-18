@@ -15,10 +15,9 @@ import java.util.List;
 
 public class CopyPasteOption {
 
-    // Now per-player, not static/global!
     private final List<List<Entity>> lastPasted = new ArrayList<>();
-    private static final int MAX_HISTORY = 50; //TODO
-    private static final int MAX_COPY = 200; //TODO
+    private static final int MAX_HISTORY = 50;
+    private static final int MAX_COPY = 200;
     private final List<EntitySnapshot> copiedEntities = new ArrayList<>();
     private final List<Location> copiedEntitiesOffsets = new ArrayList<>();
     private int yRotation = 0;

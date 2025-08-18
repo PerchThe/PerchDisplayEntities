@@ -4,6 +4,7 @@ import perch.displayentities.PerchDisplayEntities;
 import perch.displayentities.SoundUtil;
 import perch.displayentities.selection.SelectionManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.BlockDisplay;
@@ -25,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 public class SelectMobGui implements PagedGui {
 
@@ -164,6 +166,7 @@ public class SelectMobGui implements PagedGui {
                 ItemMeta meta = item.getItemMeta();
                 meta.setDisplayName("§eItemDisplay: " + (entity.getCustomName() != null ? entity.getCustomName() : entity.getUniqueId().toString()));
                 List<String> lore = new ArrayList<>();
+                addPositionLore(lore, entity);
                 lore.add("§7Left click to select, right click to deselect");
                 lore.add("§7Double left click to select only this entity");
                 if (isSelected) {
@@ -187,8 +190,9 @@ public class SelectMobGui implements PagedGui {
                 ItemMeta meta = item.getItemMeta();
                 meta.setDisplayName("§aBlockDisplay: " + (entity.getCustomName() != null ? entity.getCustomName() : entity.getUniqueId().toString()));
                 List<String> lore = new ArrayList<>();
-                lore.add("§7Left click to select, right click to deselect");
-                lore.add("§7Double left click to select only this entity");
+                addPositionLore(lore, entity);
+                lore.add("§eLeft click §7to select, right click to deselect");
+                lore.add("§eDouble left click §7to select only this entity");
                 if (isSelected) {
                     lore.add("§f[SELECTED]");
                     meta.addEnchant(Enchantment.UNBREAKING, 1, true);
@@ -203,6 +207,7 @@ public class SelectMobGui implements PagedGui {
                 ItemMeta meta = item.getItemMeta();
                 meta.setDisplayName("§bTextDisplay: " + (textDisplay.getText() != null ? textDisplay.getText() : "No Text"));
                 List<String> lore = new ArrayList<>();
+                addPositionLore(lore, entity);
                 lore.add("§7Left click to select, right click to deselect");
                 lore.add("§7Double left click to select only this entity");
                 if (isSelected) {
@@ -219,6 +224,7 @@ public class SelectMobGui implements PagedGui {
                 ItemMeta meta = item.getItemMeta();
                 meta.setDisplayName(entity.getType().name());
                 List<String> lore = new ArrayList<>();
+                addPositionLore(lore, entity);
                 lore.add("§7Left click to select, right click to deselect");
                 lore.add("§7Double left click to select only this entity");
                 if (isSelected) {
@@ -231,6 +237,30 @@ public class SelectMobGui implements PagedGui {
                 inv.setItem(i, item);
             }
         }
+    }
+
+    private void addPositionLore(List<String> lore, Entity entity) {
+        Location eloc = entity.getLocation();
+        Location ploc = player.getLocation();
+
+        int bx = eloc.getBlockX();
+        int by = eloc.getBlockY();
+        int bz = eloc.getBlockZ();
+
+        lore.add("§7Pos: §fX: " + bx + " Y: " + by + " Z: " + bz);
+
+        String distanceStr;
+        if (eloc.getWorld() != null && ploc.getWorld() != null && eloc.getWorld().equals(ploc.getWorld())) {
+            double dist = eloc.distance(ploc);
+            distanceStr = format2(dist) + " blocks";
+        } else {
+            distanceStr = "N/A (different world)";
+        }
+        lore.add("§7Dist: §f" + distanceStr);
+    }
+
+    private String format2(double d) {
+        return String.format(Locale.US, "%.2f", d);
     }
 
     @Override
