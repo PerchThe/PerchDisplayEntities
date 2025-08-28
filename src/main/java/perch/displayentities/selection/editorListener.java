@@ -17,6 +17,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
@@ -29,7 +30,6 @@ import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Transformation;
 import org.joml.Quaternionf;
@@ -75,7 +75,7 @@ public class editorListener implements Listener {
     }
 
     @EventHandler
-    public void event(PlayerDropItemEvent event) { //TODO may use to select another DisplayEntity
+    public void event(PlayerDropItemEvent event) {
         if (SelectionManager.isOneditor(event.getPlayer()))
             event.setCancelled(true);
     }
@@ -91,17 +91,15 @@ public class editorListener implements Listener {
         if (event.getHand() != EquipmentSlot.HAND)
             return;
 
-        //there is a strange bug that fires the event multiple times
         long nowMs = System.currentTimeMillis();
         long lastMs = this.lastPlayerInteraction.getOrDefault(event.getPlayer().getUniqueId(), nowMs - 150);
 
-        if (lastMs + 100 >= nowMs) //2 tick
+        if (lastMs + 100 >= nowMs)
             return;
         this.lastPlayerInteraction.put(event.getPlayer().getUniqueId(), nowMs);
         handleClick(event, mode);
     }
 
-    // --- NEW: Block entity right-clicks in editor mode ---
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
@@ -110,7 +108,6 @@ public class editorListener implements Listener {
         }
     }
 
-    // --- NEW: Block armor stand manipulation in editor mode ---
     @EventHandler
     public void onArmorStandManipulate(PlayerArmorStandManipulateEvent event) {
         Player player = event.getPlayer();
@@ -118,14 +115,6 @@ public class editorListener implements Listener {
             event.setCancelled(true);
         }
     }
-    // --------------------------------------------------------
-
-    /*
-    @EventHandler
-    public void event(PlayerDeathEvent event) {
-        if (SelectionManager.isOneditor(event.getEntity()))
-            SelectionManager.seteditor(event.getEntity(), null);
-    }*/
 
     @EventHandler
     public void event(PlayerQuitEvent event) {
@@ -134,9 +123,7 @@ public class editorListener implements Listener {
     }
 
     @EventHandler
-    public void event(InventoryOpenEvent event) { //TODO?
-
-    }
+    public void event(InventoryOpenEvent event) { }
 
     @EventHandler
     public void event(PlayerSwapHandItemsEvent event) {
@@ -146,6 +133,51 @@ public class editorListener implements Listener {
         }
     }
 
+    /* ===== QuickShop-Hikari: block buy/sell/create while in editor mode ===== */
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
+    public void blockShopContainerClicks(PlayerInteractEvent event) {
+        Player p = event.getPlayer();
+        if (!SelectionManager.isOneditor(p)) return;
+        Action a = event.getAction();
+        if (a != Action.LEFT_CLICK_BLOCK && a != Action.RIGHT_CLICK_BLOCK) return;
+        if (event.getClickedBlock() == null) return;
+
+        Material type = event.getClickedBlock().getType();
+        if (isShopContainer(type)) {
+            event.setUseInteractedBlock(Event.Result.DENY);
+            event.setUseItemInHand(Event.Result.DENY);
+            event.setCancelled(true);
+            p.sendMessage("§cShops are disabled while you are in editor mode.");
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void blockQuickShopCommands(PlayerCommandPreprocessEvent event) {
+        Player p = event.getPlayer();
+        if (!SelectionManager.isOneditor(p)) return;
+
+        String msg = event.getMessage().trim().toLowerCase(Locale.ENGLISH);
+        if (!msg.startsWith("/")) return;
+        String[] parts = msg.substring(1).split("\\s+");
+        if (parts.length < 2) return;
+
+        String base = parts[0];
+        String sub  = parts[1];
+
+        boolean quickShopAlias = base.equals("chestshop") || base.equals("quickshop") || base.equals("cs");
+        if (quickShopAlias && (sub.equals("create") || sub.equals("buy") || sub.equals("sell"))) {
+            event.setCancelled(true);
+            p.sendMessage("§cQuickShop commands are disabled while you are in editor mode.");
+        }
+    }
+
+    private boolean isShopContainer(Material m) {
+        if (m == Material.CHEST || m == Material.TRAPPED_CHEST || m == Material.BARREL) return true;
+        return m.name().endsWith("_SHULKER_BOX");
+    }
+
+    /* ======================================================================= */
 
     private void handleClick(PlayerInteractEvent event, Editor editor) {
         int slot = event.getPlayer().getInventory().getHeldItemSlot();
@@ -186,13 +218,12 @@ public class editorListener implements Listener {
             if (en instanceof Display) {
                 if (target == null)
                     target = (Display) en;
-                else //select closest  //TODO check if is owner or may select/edit not owned
+                else
                     target = target.getLocation().distanceSquared(player.getLocation()) > en.getLocation().distanceSquared(player.getLocation()) ?
                             (Display) en : target;
             }
         }
         if (target == null) {
-            //TODO feedback none near
             return;
         }
         SelectionManager.select(player, target);
@@ -241,7 +272,6 @@ public class editorListener implements Listener {
                     BoundingBox box = new BoundingBox().shift(player.getLocation()).expand(option.getCopyRadius());
                     Collection<Entity> list = player.getWorld().getNearbyEntities(box, (en) -> !(en instanceof Player));
                     player.openInventory(new SelectMobGui(player,list,true).getInventory());
-                    //TODO
                 }
             }
             case 3 -> {
@@ -398,7 +428,6 @@ public class editorListener implements Listener {
         }
     }
 
-    // ---- SCALE HANDLE CLICK WITH CLAMP ----
     private void scaleHandleClick(Player player, int slot, boolean isLeftClick, Set<Display> selections, boolean sneak, Editor mode) {
         float scale = (float) ((isLeftClick ? -1 : 1) * (sneak ? C.SCALE_FINE : C.SCALE_COARSE));
         for (Display sel : selections) {
@@ -501,7 +530,6 @@ public class editorListener implements Listener {
         }
     }
 
-    // --- GriefPrevention check utility ---
     private boolean canEditHere(Player player, Location location) {
         if (org.bukkit.Bukkit.getPluginManager().getPlugin("GriefPrevention") == null) return true;
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(location, false, null);
@@ -515,10 +543,8 @@ public class editorListener implements Listener {
 
     private void edit(Display selection, Player player, Runnable consumer, Editor mode, boolean bypassDistanceCheck, boolean reloadBar) {
         if (!bypassDistanceCheck && selection.getLocation().distanceSquared(player.getLocation()) > C.MAX_EDIT_RADIUS_SQUARED) {
-            //TODO feedback
             return;
         }
-        // --- GriefPrevention check ---
         if (!canEditHere(player, selection.getLocation())) {
             player.sendMessage("§cYou are not trusted in this claim.");
             return;

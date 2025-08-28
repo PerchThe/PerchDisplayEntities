@@ -10,25 +10,27 @@
     <packaging>jar</packaging>
 
     <name>PerchDisplayEntities</name>
-
     <description>Let you change Display entities</description>
+
     <properties>
         <java.version>21</java.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>
         <plugins>
+            <!-- Java 21, modern compiler plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.14.0</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>${maven.compiler.release}</release>
                 </configuration>
             </plugin>
         </plugins>
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -38,19 +40,30 @@
     </build>
 
     <repositories>
+        <!-- Spigot API -->
         <repository>
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+
+        <!-- CodeMC for QuickShop-Hikari -->
+        <repository>
+            <id>codemc-public</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
+        </repository>
+
+        <!-- JitPack for SuperVanish & GriefPrevention -->
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+
         <!-- PlaceholderAPI repo -->
         <repository>
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+
         <!-- MythicMobs -->
         <repository>
             <id>lumine-repo</id>
@@ -59,7 +72,31 @@
     </repositories>
 
     <dependencies>
-        <!-- MythicMobs -->
+        <!-- Spigot -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.20.6-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- QuickShop-Hikari API (listen to events; do not shade it) -->
+        <dependency>
+            <groupId>com.ghostchu</groupId>
+            <artifactId>quickshop-hikari-api</artifactId>
+            <version>3.6.1.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- GriefPrevention via JitPack (no local systemPath) -->
+        <dependency>
+            <groupId>com.github.TechFortress</groupId>
+            <artifactId>GriefPrevention</artifactId>
+            <version>16.18.4</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- MythicMobs (already had repo) -->
         <dependency>
             <groupId>io.lumine</groupId>
             <artifactId>Mythic-Dist</artifactId>
@@ -67,14 +104,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>me.ryanhamshire</groupId>
-            <artifactId>griefprevention</artifactId>
-            <version>16.18.2</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/GriefPrevention.jar</systemPath>
-        </dependency>
-        <!-- MiniMessage -->
+        <!-- Kyori Adventure -->
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
@@ -84,39 +114,29 @@
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-serializer-legacy</artifactId>
             <version>4.17.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
-        <!-- SuperVanish -->
+
+        <!-- SuperVanish via JitPack -->
         <dependency>
             <groupId>com.github.LeonMangler</groupId>
             <artifactId>SuperVanish</artifactId>
             <version>6.2.6-2</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Spigot -->
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.20.6-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- JetBrains Annotations -->
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations-java5</artifactId>
-            <version>24.0.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- PlaceHolderAPI -->
+
+        <!-- PlaceholderAPI -->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.11.6</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JetBrains annotations -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations-java5</artifactId>
+            <version>24.0.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

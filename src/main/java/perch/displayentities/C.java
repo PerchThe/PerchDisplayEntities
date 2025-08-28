@@ -16,7 +16,7 @@ public class C {
     public static double SCALE_FINE = 0.025;
     public static double ROTATE_COARSE = 22.5;
     public static double ROTATE_FINE = 1.25;
-    public static double MAX_SCALE = 10.0;
+    public static double MAX_SCALE = 25.0;
     public static boolean EXIT_ON_HIT = true;
 
     public static void reload() {

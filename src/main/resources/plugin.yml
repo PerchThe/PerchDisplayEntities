@@ -4,7 +4,7 @@ version: "1.0.0"
 author: [ emanon,KayaLambrex ]
 api-version: 1.19
 folia-supported: true
-softdepend: [ Vault,SuperVanish,PremiumVanish,PlaceHolderAPI,GriefPrevention ]
+softdepend: [ Vault,SuperVanish,PremiumVanish,PlaceHolderAPI,GriefPrevention,QuickShop-Hikari ]
 
 libraries:
   - net.kyori:adventure-api:4.16.0
