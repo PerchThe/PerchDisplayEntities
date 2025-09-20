@@ -46,12 +46,12 @@ public enum Editor {
         Inventory inv = player.getInventory();
         Display display = SelectionManager.getSelection(player);
 
-
         inv.setItem(7, setDesc(craftItem(Material.PAPER, ordinal() + 1), player, "editor.all.page"));
         inv.setItem(8, setDesc(craftItem(Material.RED_STAINED_GLASS_PANE), player, "editor.all.exit"));
         if (display == null && this != COPY_PASTE) {
             for (int i = 0; i < 7; i++)
                 inv.setItem(i, setDesc(craftItem(Material.STRUCTURE_VOID), player, "editor.all.select"));
+            fillEmptyHotbar(inv);
             return;
         }
 
@@ -73,12 +73,9 @@ public enum Editor {
             }
             case ROTATION -> {
                 Vector3f vect = display.getTransformation().getLeftRotation().getEulerAnglesXYZ(new Vector3f());
-                double x = vect.x;
-                x = (x / Math.PI + (x < 0 ? 2 : 0)) * 180;
-                double y = vect.y;
-                y = (y / Math.PI + (y < 0 ? 2 : 0)) * 180;
-                double z = vect.z;
-                z = (z / Math.PI + (z < 0 ? 2 : 0)) * 180;
+                double x = vect.x; x = (x / Math.PI + (x < 0 ? 2 : 0)) * 180;
+                double y = vect.y; y = (y / Math.PI + (y < 0 ? 2 : 0)) * 180;
+                double z = vect.z; z = (z / Math.PI + (z < 0 ? 2 : 0)) * 180;
 
                 holders = new String[]{"%x_degree%", optional3Digit.format(x),
                         "%y_degree%", optional3Digit.format(y), "%z_degree%", optional3Digit.format(z),
@@ -151,9 +148,7 @@ public enum Editor {
                             textDisplay.getAlignment().name().toLowerCase(Locale.ENGLISH)));
                     inv.setItem(5, null);
                     inv.setItem(6, null);
-                    return;
-                }
-                if (display instanceof BlockDisplay) {
+                } else if (display instanceof BlockDisplay) {
                     BlockData data = ((BlockDisplay) display).getBlock();
                     List<BlockDataInteractor> datas = BlockDataUtil.getBlockDataValues(data);
                     for (int i = 0; i < 7; i++) {
@@ -165,13 +160,10 @@ public enum Editor {
                                     setDesc(craftItem(value.getMaterial(data), value.getAmount(data)), player,
                                             value.getLanguagePath(data), value.getHolders(data)));
                         }
-
                     }
                     if (datas.size() > 6)
                         PerchDisplayEntities.get().log("BlockData require more than 6 slots, report this message to the developer &e" + ((BlockDisplay) display).getBlock().getAsString(false));
-                    return;
-                }
-                if (display instanceof ItemDisplay itemDisplay) {
+                } else if (display instanceof ItemDisplay itemDisplay) {
                     int current = 0;
                     ItemStack item = ((ItemDisplay) display).getItemStack();
                     if (item != null) {
@@ -188,10 +180,9 @@ public enum Editor {
                         DecimalFormat format = new DecimalFormat("###,###");
                         int val = (int) Math.pow(10, 2 * (i - 1));
                         inv.setItem(1 + i, setDesc(craftItem(Material.PAINTING, i * 2 - 1), player,
-                                "editor.entity_specific.item_modeldata", "%value%", format.format(val)
-                                , "%shift-value%", format.format((int) val * 10), "%current%", format.format(current)));
+                                "editor.entity_specific.item_modeldata", "%value%", format.format(val),
+                                "%shift-value%", format.format((int) val * 10), "%current%", format.format(current)));
                     }
-                    return;
                 }
             }
             case COPY_PASTE -> {
@@ -210,8 +201,17 @@ public enum Editor {
                 }
             }
         }
+
+        fillEmptyHotbar(inv);
     }
 
+    private void fillEmptyHotbar(Inventory inv) {
+        for (int i = 0; i <= 8; i++) {
+            if (inv.getItem(i) == null) {
+                inv.setItem(i, craftFiller());
+            }
+        }
+    }
 
     @Contract("null,_,_,_->null;!null,_,_,_->!null")
     private ItemStack setDesc(@Nullable ItemStack item, Player target, @NotNull String fullPath, String... holders) {
@@ -250,5 +250,14 @@ public enum Editor {
         return item;
     }
 
-
+    private ItemStack craftFiller() {
+        ItemStack item = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(" ");
+            meta.addItemFlags(ItemFlag.values());
+            item.setItemMeta(meta);
+        }
+        return item;
+    }
 }
