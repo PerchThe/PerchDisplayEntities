@@ -13,7 +13,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.*;
+import org.bukkit.entity.BlockDisplay;
+import org.bukkit.entity.Display;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.TextDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -51,7 +56,7 @@ public class Create extends SubCmd {
         onFail(sender, alias);
     }
 
-    //create block [type=STONE/HAND]
+    // create block [type=STONE/HAND]
     private void block(Player player, String alias, String[] args) {
         Material type = Material.STONE;
         if (args.length > 2) {
@@ -61,25 +66,41 @@ public class Create extends SubCmd {
                 sendLanguageString("wrong-block-type", null, player);
                 return;
             }
-        } else if (getItemInHand(player) != null && !getItemInHand(player).getType().isAir() && getItemInHand(player).getType().isBlock()) {
+        } else if (getItemInHand(player) != null
+                && !getItemInHand(player).getType().isAir()
+                && getItemInHand(player).getType().isBlock()) {
             type = getItemInHand(player).getType();
         }
         if (!type.isBlock()) {
             sendLanguageString("wrong-block-type", null, player);
             return;
         }
+
         Location loc = player.getLocation().clone();
         loc.setYaw(0);
         loc.setPitch(0);
+
         // --- GriefPrevention check ---
         if (!canEditHere(player, loc)) {
             player.sendMessage("§cYou need to be trusted to use this command here.");
             return;
         }
-        BlockDisplay block = (BlockDisplay) player.getWorld().spawnEntity(loc, EntityType.BLOCK_DISPLAY);
-        block.setBlock(Bukkit.createBlockData(type));
-        setOwner(block, player);
-        SelectionManager.select(player, block);
+
+        // Workaround for vanilla rendering quirk: use ItemDisplay for hanging signs
+        if (isHangingSign(type)) {
+            ItemDisplay display = (ItemDisplay) player.getWorld().spawnEntity(loc, EntityType.ITEM_DISPLAY);
+            display.setItemStack(new ItemStack(type)); // hanging sign has an item form
+            applyItemDisplayDefaults(display);
+            setOwner(display, player);
+            SelectionManager.select(player, display);
+        } else {
+            BlockDisplay display = (BlockDisplay) player.getWorld().spawnEntity(loc, EntityType.BLOCK_DISPLAY);
+            display.setBlock(Bukkit.createBlockData(type));
+            applyBlockDisplayDefaults(display);
+            setOwner(display, player);
+            SelectionManager.select(player, display);
+        }
+
         if (!SelectionManager.isOneditor(player))
             SelectionManager.seteditor(player, Editor.POSITION);
         else
@@ -87,8 +108,7 @@ public class Create extends SubCmd {
         sendLanguageString("success-block", null, player);
     }
 
-
-    //create item [item=HAND/STONE]
+    // create item [item=HAND/STONE]
     private void item(Player player, String alias, String[] args) {
         ItemStack type = new ItemStack(Material.STONE);
         if (args.length > 2) {
@@ -106,16 +126,21 @@ public class Create extends SubCmd {
         } else if (getItemInHand(player) != null && !getItemInHand(player).getType().isAir()) {
             type = new ItemStack(getItemInHand(player));
         }
+
         Location loc = player.getLocation().clone();
         loc.setYaw(0);
         loc.setPitch(0);
+
         // --- GriefPrevention check ---
         if (!canEditHere(player, loc)) {
             player.sendMessage("§cYou need to be trusted to use this command here.");
             return;
         }
+
         ItemDisplay item = (ItemDisplay) player.getWorld().spawnEntity(loc, EntityType.ITEM_DISPLAY);
         item.setItemStack(type);
+        applyItemDisplayDefaults(item);
+
         setOwner(item, player);
         SelectionManager.select(player, item);
         if (!SelectionManager.isOneditor(player))
@@ -125,25 +150,32 @@ public class Create extends SubCmd {
         sendLanguageString("success-item", null, player);
     }
 
-    //create text [text=Hologram]
+    // create text [text=Hologram]
     private void text(Player player, String alias, String[] args) {
         String text = "Hologram";
         if (args.length > 2) {
             text = String.join(" ", Arrays.asList(args).subList(2, args.length));
         }
-        //TODO fix text
-        //TODO apply censure or bypass it
+        // TODO fix text
+        // TODO apply censure or bypass it
         text = UtilsString.fix(text, null, true);
+
         Location loc = player.getLocation().clone();
         loc.setYaw(0);
         loc.setPitch(0);
+
         // --- GriefPrevention check ---
         if (!canEditHere(player, loc)) {
             player.sendMessage("§cYou need to be trusted to use this command here.");
             return;
         }
+
         TextDisplay textDisplay = (TextDisplay) player.getWorld().spawnEntity(loc, EntityType.TEXT_DISPLAY, false);
         textDisplay.setBillboard(Display.Billboard.CENTER);
+        textDisplay.setSeeThrough(false);   // supported on TextDisplay
+        textDisplay.setGlowing(false);
+        textDisplay.setBrightness(null);
+
         textDisplay.setText(text);
         setOwner(textDisplay, player);
         SelectionManager.select(player, textDisplay);
@@ -173,9 +205,35 @@ public class Create extends SubCmd {
 
     // --- GriefPrevention check utility ---
     private boolean canEditHere(Player player, Location location) {
-        if (org.bukkit.Bukkit.getPluginManager().getPlugin("GriefPrevention") == null) return true;
+        if (Bukkit.getPluginManager().getPlugin("GriefPrevention") == null) return true;
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(location, false, null);
         if (claim == null) return true;
         return claim.allowBuild(player, location.getBlock().getType()) == null;
+    }
+
+    // ---------- helpers ----------
+    private static boolean isHangingSign(Material mat) {
+        String n = mat.name();
+        return n.endsWith("_HANGING_SIGN") || n.endsWith("_WALL_HANGING_SIGN");
+    }
+
+    // ---------- Display defaults ----------
+    private void applyBlockDisplayDefaults(BlockDisplay d) {
+        d.setBillboard(Display.Billboard.FIXED);
+        d.setGlowing(false);
+        d.setBrightness(null);
+        d.setShadowRadius(0f);
+        d.setShadowStrength(0f);
+        d.setInterpolationDuration(0);
+        // No setCullingBox in your API; leave default culling
+    }
+
+    private void applyItemDisplayDefaults(ItemDisplay d) {
+        d.setBillboard(Display.Billboard.FIXED);
+        d.setGlowing(false);
+        d.setBrightness(null);
+        d.setShadowRadius(0f);
+        d.setShadowStrength(0f);
+        d.setInterpolationDuration(0);
     }
 }

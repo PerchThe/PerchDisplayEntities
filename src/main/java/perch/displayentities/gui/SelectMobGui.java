@@ -25,10 +25,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
 public class SelectMobGui implements PagedGui {
+
+    private enum SortMode {
+        DISTANCE("Distance (Nearest)"),
+        NEWEST("Age (Newest)"),
+        TYPE("Type (Block/Item/Text)");
+
+        final String displayName;
+        SortMode(String displayName) { this.displayName = displayName; }
+    }
 
     private final Inventory inv;
     private final Player player;
@@ -36,6 +47,7 @@ public class SelectMobGui implements PagedGui {
     private final List<Entity> entities;
     private final List<Entity> selected;
     private final boolean copy;
+    private SortMode currentSort = SortMode.DISTANCE;
 
     // For double-click detection
     private int lastClickedSlot = -1;
@@ -58,6 +70,44 @@ public class SelectMobGui implements PagedGui {
             selected = new ArrayList<>();
         }
         this.copy = copy;
+
+        // Initial sort
+        sortEntities();
+    }
+
+    private void sortEntities() {
+        switch (currentSort) {
+            case DISTANCE:
+                entities.sort((e1, e2) -> {
+                    Location pLoc = player.getLocation();
+                    Location l1 = e1.getLocation();
+                    Location l2 = e2.getLocation();
+                    boolean sameWorld1 = l1.getWorld() != null && l1.getWorld().equals(pLoc.getWorld());
+                    boolean sameWorld2 = l2.getWorld() != null && l2.getWorld().equals(pLoc.getWorld());
+
+                    if (sameWorld1 && !sameWorld2) return -1;
+                    if (!sameWorld1 && sameWorld2) return 1;
+                    if (!sameWorld1 && !sameWorld2) return 0;
+                    return Double.compare(l1.distanceSquared(pLoc), l2.distanceSquared(pLoc));
+                });
+                break;
+            case NEWEST:
+                // Higher Entity ID usually means newer entity
+                entities.sort(Comparator.comparingInt(Entity::getEntityId).reversed());
+                break;
+            case TYPE:
+                entities.sort((e1, e2) -> {
+                    String type1 = e1.getType().name();
+                    String type2 = e2.getType().name();
+                    // Secondary sort by distance so types are grouped but still ordered by proximity
+                    int typeCompare = type1.compareTo(type2);
+                    if (typeCompare != 0) return typeCompare;
+
+                    Location pLoc = player.getLocation();
+                    return Double.compare(e1.getLocation().distanceSquared(pLoc), e2.getLocation().distanceSquared(pLoc));
+                });
+                break;
+        }
     }
 
     @Override
@@ -74,16 +124,29 @@ public class SelectMobGui implements PagedGui {
             SoundUtil.playSoundNo(player);
             return;
         }
-        if (event.getSlot() == 46) { //page change
+
+        // Previous Page
+        if (event.getSlot() == 46) {
             page = Math.max(1, page - 1);
             updateInventory();
             return;
         }
-        if (event.getSlot() == 52) { //page change
+
+        // Next Page
+        if (event.getSlot() == 52) {
             page = Math.min(page + 1, 1 + entities.size() / 45 + (entities.size() % 45 == 0 ? -1 : 0));
             updateInventory();
             return;
         }
+
+        // Sort Button
+        if (event.getSlot() == 53) {
+            cycleSortMode();
+            SoundUtil.playSoundUIClick(player);
+            return;
+        }
+
+        // Entity Selection Logic
         int index = event.getSlot() + (page - 1) * 45;
         if (index < 0 || index >= entities.size()) {
             SoundUtil.playSoundNo(player);
@@ -142,9 +205,38 @@ public class SelectMobGui implements PagedGui {
         updateInventory();
     }
 
+    private void cycleSortMode() {
+        int nextOrdinal = (currentSort.ordinal() + 1) % SortMode.values().length;
+        currentSort = SortMode.values()[nextOrdinal];
+        sortEntities();
+        // Reset to page 1 when sorting changes so the user doesn't get lost
+        page = 1;
+        updateInventory();
+    }
+
+    private ItemStack getSortButton() {
+        ItemStack item = new ItemStack(Material.COMPARATOR);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName("§6Sort Mode: §e" + currentSort.displayName);
+        List<String> lore = new ArrayList<>();
+        lore.add("§7Click to cycle sorting method:");
+        for (SortMode mode : SortMode.values()) {
+            if (mode == currentSort) {
+                lore.add("§8» " + mode.displayName);
+            } else {
+                lore.add("§f  " + mode.displayName);
+            }
+        }
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
+    }
+
     private void updateInventory() {
         inv.setItem(46, page > 1 ? getPreviousPageItem() : null);
         inv.setItem(52, page < entities.size() / 45 + (entities.size() % 45 == 0 ? 0 : 1) ? getNextPageItem() : null);
+        inv.setItem(53, getSortButton()); // Add the sort button
+
         for (int i = 0; i < 45; i++) {
             int entityIndex = i + (page - 1) * 45;
             if (entityIndex >= entities.size()) {

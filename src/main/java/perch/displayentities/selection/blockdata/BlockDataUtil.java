@@ -147,7 +147,7 @@ public class BlockDataUtil {
                     (d, v) -> ((Door) d).setHinge(v)));
         }
         if (data instanceof EndPortalFrame) {
-            values.add(new BooleanInteractor("eye", Material.END_PORTAL_FRAME,
+            values.add(new BooleanInteractor("eye", Material.ENDER_EYE, // <-- changed from END_PORTAL_FRAME
                     (d) -> ((EndPortalFrame) d).hasEye(),
                     (d, v) -> ((EndPortalFrame) d).setEye(v)));
         }
@@ -459,7 +459,7 @@ public class BlockDataUtil {
                     (d, v) -> ((Wall) d).setUp(v)));
         }
         if (data instanceof Waterlogged) {
-            values.add(new BooleanInteractor("waterlogged", Material.WATER_CAULDRON,
+            values.add(new BooleanInteractor("waterlogged", Material.WATER_BUCKET, // <-- changed from WATER_CAULDRON
                     (d) -> ((Waterlogged) d).isWaterlogged(),
                     (d, v) -> ((Waterlogged) d).setWaterlogged(v)));
         }
