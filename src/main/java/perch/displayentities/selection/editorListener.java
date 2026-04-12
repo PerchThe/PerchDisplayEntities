@@ -296,6 +296,24 @@ public class editorListener implements Listener {
                 SoundUtil.playSoundUIClick(player);
                 editor.setup(player);
             }
+            // Logic for the new button
+            case 6 -> {
+                Set<Display> currentSelection = SelectionManager.getSelections(player);
+                if (currentSelection != null && !currentSelection.isEmpty()) {
+                    // Fix: Explicitly create a list of Entity to satisfy the method signature
+                    List<Entity> entityList = new ArrayList<>(currentSelection);
+                    option.copy(entityList, player.getLocation());
+
+                    SoundUtil.playSoundUIClick(player);
+                    editor.setup(player);
+
+                    // Fix: Pass the entityList (Collection<Entity>) instead of the Set<Display>
+                    Util.flashEntities(player, entityList);
+                    player.sendMessage("§aCopied " + currentSelection.size() + " selected entities.");
+                } else {
+                    SoundUtil.playSoundNo(player);
+                }
+            }
         }
     }
 

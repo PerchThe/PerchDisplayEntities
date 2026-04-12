@@ -197,7 +197,9 @@ public enum Editor {
                     inv.setItem(4, setDesc(craftItem(Material.LAVA_BUCKET, option.getAvailableUndo()), player, "editor.copy_paste.undo"));
                     inv.setItem(5, setDesc(craftItem(Material.CLOCK, option.getYRotation() / 10), player, "editor.copy_paste.paste_rotate",
                             "%value%", String.valueOf(option.getYRotation())));
-                    inv.setItem(6, null);
+
+                    // Added: Option to copy all selected entities
+                    inv.setItem(6, setDesc(craftItem(Material.POWDER_SNOW_BUCKET), player, "editor.copy_paste.copy_selected"));
                 }
             }
         }
