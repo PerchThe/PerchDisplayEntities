@@ -48,7 +48,7 @@ public class editorListener implements Listener {
     }
 
     @EventHandler
-    public void event(PlayerTeleportEvent event) {//if change world
+    public void event(PlayerTeleportEvent event) {
         if (!SelectionManager.isOneditor(event.getPlayer()))
             return;
         if (event.getTo() == null || Objects.equals(event.getFrom().getWorld(), event.getTo().getWorld())) {
@@ -133,8 +133,6 @@ public class editorListener implements Listener {
         }
     }
 
-    /* ===== QuickShop-Hikari: block buy/sell/create while in editor mode ===== */
-
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
     public void blockShopContainerClicks(PlayerInteractEvent event) {
         Player p = event.getPlayer();
@@ -176,8 +174,6 @@ public class editorListener implements Listener {
         if (m == Material.CHEST || m == Material.TRAPPED_CHEST || m == Material.BARREL) return true;
         return m.name().endsWith("_SHULKER_BOX");
     }
-
-    /* ======================================================================= */
 
     private void handleClick(PlayerInteractEvent event, Editor editor) {
         int slot = event.getPlayer().getInventory().getHeldItemSlot();
@@ -275,6 +271,13 @@ public class editorListener implements Listener {
                 }
             }
             case 3 -> {
+
+                if (!canEditHere(player, player.getLocation())) {
+                    player.sendMessage("§cYou cannot paste entities into an untrusted claim.");
+                    SoundUtil.playSoundNo(player);
+                    return;
+                }
+
                 if (!option.paste(player.getLocation(), !sneak)) {
                     SoundUtil.playSoundNo(player);
                     return;
@@ -296,18 +299,15 @@ public class editorListener implements Listener {
                 SoundUtil.playSoundUIClick(player);
                 editor.setup(player);
             }
-            // Logic for the new button
             case 6 -> {
                 Set<Display> currentSelection = SelectionManager.getSelections(player);
                 if (currentSelection != null && !currentSelection.isEmpty()) {
-                    // Fix: Explicitly create a list of Entity to satisfy the method signature
                     List<Entity> entityList = new ArrayList<>(currentSelection);
                     option.copy(entityList, player.getLocation());
 
                     SoundUtil.playSoundUIClick(player);
                     editor.setup(player);
 
-                    // Fix: Pass the entityList (Collection<Entity>) instead of the Set<Display>
                     Util.flashEntities(player, entityList);
                     player.sendMessage("§aCopied " + currentSelection.size() + " selected entities.");
                 } else {
@@ -530,21 +530,31 @@ public class editorListener implements Listener {
     private void positionHandleClick(Player player, int slot, boolean isLeftClick, Set<Display> selections, boolean sneak, Editor mode) {
         double move = (isLeftClick ? -1 : 1) * (sneak ? C.MOVE_FINE : C.MOVE_COARSE);
         for (Display sel : selections) {
+            Location current = sel.getLocation();
+            Location target = current.clone();
+
             switch (slot) {
-                case 0 -> edit(sel, player, () -> sel.teleport(sel.getLocation().add(move, 0, 0)), mode);
-                case 1 -> edit(sel, player, () -> sel.teleport(sel.getLocation().add(0, move, 0)), mode);
-                case 2 -> edit(sel, player, () -> sel.teleport(sel.getLocation().add(0, 0, move)), mode);
+                case 0 -> target.add(move, 0, 0);
+                case 1 -> target.add(0, move, 0);
+                case 2 -> target.add(0, 0, move);
                 case 4 -> {
-                    Location target = isLeftClick ? player.getEyeLocation() : player.getLocation();
-                    target.setYaw(sel.getLocation().getYaw());
-                    target.setPitch(sel.getLocation().getPitch());
-                    edit(sel, player, () -> sel.teleport(target), mode);
+                    target = isLeftClick ? player.getEyeLocation().clone() : player.getLocation().clone();
+                    target.setYaw(current.getYaw());
+                    target.setPitch(current.getPitch());
                 }
                 case 6 -> {
-                    Location loc = sel.getLocation();
-                    edit(sel, player, () -> sel.teleport(new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), loc.getYaw(), loc.getPitch())), mode);
+                    target = new Location(current.getWorld(), current.getBlockX(), current.getBlockY(), current.getBlockZ(), current.getYaw(), current.getPitch());
                 }
             }
+
+            if (!canEditHere(player, target)) {
+                player.sendMessage("§cYou cannot move this entity into an untrusted claim.");
+                SoundUtil.playSoundNo(player);
+                continue;
+            }
+
+            final Location finalTarget = target;
+            edit(sel, player, () -> sel.teleport(finalTarget), mode);
         }
     }
 
