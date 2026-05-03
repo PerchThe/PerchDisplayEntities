@@ -298,6 +298,9 @@ editor:
     block_hinge:
       - '&6Hinge (Current: &e%value%&6)'
       - '&bLeft/Right &9➤ &bChange value'
+    block_hydration:
+      - '&6Hydration (Current: &e%value%&6)'
+      - '&bLeft/Right &9➤ &bChange value'
     block_eye:
       - '&6Eye (Current: &e%value%&6)'
       - '&bLeft/Right &9➤ &bChange value'

@@ -146,6 +146,12 @@ public class BlockDataUtil {
                     (d) -> ((Door) d).getHinge(),
                     (d, v) -> ((Door) d).setHinge(v)));
         }
+        if (data instanceof DriedGhast) {
+            values.add(new NumericInteractor("hydration", Material.WATER_BUCKET,
+                    (d) -> ((DriedGhast) d).getHydration(),
+                    (d, v) -> ((DriedGhast) d).setHydration(v),
+                    (d) -> ((DriedGhast) d).getMaximumHydration()));
+        }
         if (data instanceof EndPortalFrame) {
             values.add(new BooleanInteractor("eye", Material.ENDER_EYE, // <-- changed from END_PORTAL_FRAME
                     (d) -> ((EndPortalFrame) d).hasEye(),
