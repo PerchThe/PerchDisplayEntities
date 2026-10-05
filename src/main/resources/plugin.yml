@@ -1,6 +1,6 @@
-name: PerchDisplayEntities
-main: ${groupId}.${project.name}
-version: "1.0.0"
+name: EvergreenDisplayEntities
+main: ever.green.displayentities.DisplayEntities
+version: "26.6.2"
 author: [ emanon,KayaLambrex ]
 api-version: 1.19
 folia-supported: true

@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>perch.displayentities</groupId>
-    <artifactId>PerchDisplayEntities</artifactId>
-    <version>1.0.0</version>
+    <groupId>ever.green.displayentities</groupId>
+    <artifactId>EvergreenDisplayEntities</artifactId>
+    <version>26.6.2</version>
     <packaging>jar</packaging>
 
-    <name>PerchDisplayEntities</name>
-    <description>Let you change Display entities</description>
+    <name>EvergreenDisplayEntities</name>
+    <description>Change display entities with this fancy editor</description>
 
     <properties>
         <java.version>21</java.version>
@@ -20,7 +20,6 @@
 
     <build>
         <plugins>
-            <!-- Java 21, modern compiler plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -40,31 +39,26 @@
     </build>
 
     <repositories>
-        <!-- Spigot API -->
         <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
 
-        <!-- CodeMC for QuickShop-Hikari -->
         <repository>
             <id>codemc-public</id>
             <url>https://repo.codemc.io/repository/maven-public/</url>
         </repository>
 
-        <!-- JitPack for SuperVanish & GriefPrevention -->
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
 
-        <!-- PlaceholderAPI repo -->
         <repository>
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
 
-        <!-- MythicMobs -->
         <repository>
             <id>lumine-repo</id>
             <url>https://mvn.lumine.io/repository/maven-public/</url>
@@ -72,15 +66,13 @@
     </repositories>
 
     <dependencies>
-        <!-- Spigot -->
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.21.6-R0.1-SNAPSHOT</version>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>26.1.1.build.29-alpha</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- QuickShop-Hikari API (listen to events; do not shade it) -->
         <dependency>
             <groupId>com.ghostchu</groupId>
             <artifactId>quickshop-hikari-api</artifactId>
@@ -88,7 +80,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- GriefPrevention via JitPack (no local systemPath) -->
         <dependency>
             <groupId>com.github.TechFortress</groupId>
             <artifactId>GriefPrevention</artifactId>
@@ -96,7 +87,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- MythicMobs (already had repo) -->
         <dependency>
             <groupId>io.lumine</groupId>
             <artifactId>Mythic-Dist</artifactId>
@@ -104,7 +94,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Kyori Adventure -->
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
@@ -116,7 +105,6 @@
             <version>4.17.0</version>
         </dependency>
 
-        <!-- SuperVanish via JitPack -->
         <dependency>
             <groupId>com.github.LeonMangler</groupId>
             <artifactId>SuperVanish</artifactId>
@@ -124,7 +112,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- PlaceholderAPI -->
         <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
@@ -132,7 +119,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- JetBrains annotations -->
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations-java5</artifactId>

@@ -1,503 +1,546 @@
-player-only: '&4[&cDisplayEntities&4] &cCommand for Players only'
-no-item-on-hand: '&4[&cDisplayEntities&4] &cYou need to hold an item in hand'
-lack-permission: '&4[&cDisplayEntities&4] &cYou lack of permission %permission%'
-lack-permission-generic: '&4[&cDisplayEntities&4] &cYou don''t have permission to use
-  this command'
+player-only: '&8» &cCommand for Players only'
+no-item-on-hand: '&8» &cYou need to hold an item in hand'
+lack-permission: '&8» &cYou lack permission: %permission%'
+lack-permission-generic: '&8» &cYou don''t have permission to use this command.'
 DisplayEntities:
-  help-header: '&9&lDisplayEntities - Help'
+  help-header: '&#7db597&lDisplay Entities &8• &fHelp'
   create:
     description:
-      - '&b&lCreate a New Display Entity'
+      - '&#48ab76&lCreate a New Display Entity'
       - ''
-      - '&eitem [type] &b- create an item display of selected type'
-      - '  &bor of the item in your hand'
-      - '&eblock [type] &b- create a block display of selected type'
-      - '  &bor of the item in your hand'
-      - '&etext [line] &b- create a text display'
+      - '&8• &#7db597item [type] &8» &fCreate an item display'
+      - '  &f(or of the item in your hand)'
+      - '&8• &#7db597block [type] &8» &fCreate a block display'
+      - '  &f(or of the block in your hand)'
+      - '&8• &#7db597text [line] &8» &fCreate a text display'
     params: '{item/block/text}'
-    wrong-item-type: '&4[&cDisplayEntities&4] &cType must be an item'
-    wrong-block-type: '&4[&cDisplayEntities&4] &cType must be a block'
-    success-block: '&9[&fDisplayEntities&9] &aBlock Display created and selected'
-    success-item: '&9[&fDisplayEntities&9] &aItem Display created and selected'
-    success-text: '&9[&fDisplayEntities&9] &aText Display created and selected'
+    wrong-item-type: '&8» &cType must be an item.'
+    wrong-block-type: '&8» &cType must be a block.'
+    success-block: '&8» &#48ab76Block Display created and selected.'
+    success-item: '&8» &#48ab76Item Display created and selected.'
+    success-text: '&8» &#48ab76Text Display created and selected.'
   delete:
     description:
-      - '&b&lDelete Selected Display Entity'
+      - '&#48ab76&lDelete Selected Display Entity'
       - ''
-      - '&cPermanently delete'
+      - '&cThis permanently deletes the entity.'
     params: ''
-    success: '&9[&fDisplayEntities&9] &aDeleted selected entity'
-    none-selected: '&4[&cDisplayEntities&4] &cNo Display is selected'
+    success: '&8» &#48ab76Deleted selected entity.'
+    none-selected: '&8» &cNo Display is currently selected.'
   select:
     description:
-      - '&b&lSelect Display Entity'
+      - '&#48ab76&lSelect Display Entity'
       - ''
-      - '&bSelect closest display entity'
-      - '&e[radius/id] &b- radius around you to search or the id of the entity'
-      - '&bdefault radius is 8'
-      - '&bid of the entity is the entity uuid (suggested by tab completer)'
+      - '&fSelect the closest display entity.'
+      - '&8• &#7db597[radius/id] &8» &fRadius around you or the exact entity ID.'
+      - '&f(Default radius is 8)'
     params: '[radius/id]'
-    invalid-radius: '&4[&cDisplayEntities&4] &cInvalid Radius, must be a positive number'
-    invalid-radius-or-uuid: '&4[&cDisplayEntities&4] &cInvalid Radius or Id argument'
-    entity-uuid-not-found: '&4[&cDisplayEntities&4] &cNo matching entity with selected Id'
-    none-found: '&4[&cDisplayEntities&4] &cNo Display was found around you'
-    success: '&9[&fDisplayEntities&9] &aSelected entity'
+    invalid-radius: '&8» &cInvalid Radius! Must be a positive number.'
+    invalid-radius-or-uuid: '&8» &cInvalid Radius or ID argument.'
+    entity-uuid-not-found: '&8» &cNo matching entity with that ID.'
+    none-found: '&8» &cNo Display was found around you.'
+    success: '&8» &#48ab76Selected entity.'
   deselect:
     description:
-      - '&b&lDeselect Display Entity'
+      - '&#48ab76&lDeselect Display Entity'
       - ''
     params: ''
-    success: '&9[&fDisplayEntities&9] &aDeselected entity'
-    none-selected: '&4[&cDisplayEntities&4] &cNo Display is selected'
+    success: '&8» &#48ab76Deselected entity.'
+    none-selected: '&8» &cNo Display is currently selected.'
   editor:
     description:
-      - '&b&lSwitch to editor'
+      - '&#48ab76&lSwitch to Editor'
       - ''
-      - '&e[mode] &b- editor mode by default toggle'
+      - '&8• &#7db597[mode] &8» &fEditor mode (toggles by default)'
     params: '[mode]'
-    success-enabled: '&9[&fDisplayEntities&9] &aEnabled editor'
-    success-disabled: '&9[&fDisplayEntities&9] &aDisabled editor'
-    wrong-type: '&4[&cDisplayEntities&4] &cInvalid editor'
+    success-enabled: '&8» &#48ab76Enabled editor mode.'
+    success-disabled: '&8» &#48ab76Disabled editor mode.'
+    wrong-type: '&8» &cInvalid editor mode.'
   setitem:
     description:
-      - '&b&lSet Item for ItemDisplays'
+      - '&#48ab76&lSet Item for ItemDisplays'
       - ''
-      - '&e[material] &b- Item type'
-      - '&bif item type is not specified item in'
-      - '&byour hand is used'
+      - '&8• &#7db597[material] &8» &fItem type'
+      - '&fIf unspecified, uses the item in your hand.'
     params: '[material]'
-    wrong-type: '&4[&cDisplayEntities&4] &cSelected display is not a Item Display'
-    none-selected: '&4[&cDisplayEntities&4] &cNo Display is selected'
-    not-existing-material: '&4[&cDisplayEntities&4] &cMaterial &6%material% &cdo not exist'
-    invalid-material: '&4[&cDisplayEntities&4] &cMaterial &6%material% &cis not an item'
-    success: '&9[&fDisplayEntities&9] &aItem Updated'
+    wrong-type: '&8» &cSelected display is not an Item Display.'
+    none-selected: '&8» &cNo Display is currently selected.'
+    not-existing-material: '&8» &cMaterial &#7db597%material% &cdoes not exist.'
+    invalid-material: '&8» &cMaterial &#7db597%material% &cis not an item.'
+    success: '&8» &#48ab76Item Updated.'
   setblock:
     description:
-      - '&b&lSet Block for BlockDisplays'
+      - '&#48ab76&lSet Block for BlockDisplays'
       - ''
-      - '&e[material] &b- Block type'
-      - '&bif block type is not specified the block'
-      - '&byou are looking at is used'
+      - '&8• &#7db597[material] &8» &fBlock type'
+      - '&fIf unspecified, uses the block you are looking at.'
     params: '[material]'
-    wrong-type: '&4[&cDisplayEntities&4] &cSelected display is not a Block Display'
-    none-selected: '&4[&cDisplayEntities&4] &cNo Display is selected'
-    not-existing-material: '&4[&cDisplayEntities&4] &cMaterial &6%material% &cdo not exist'
-    invalid-material: '&4[&cDisplayEntities&4] &cMaterial &6%material% &cis not a block'
-    success: '&9[&fDisplayEntities&9] &aBlock Updated'
+    wrong-type: '&8» &cSelected display is not a Block Display.'
+    none-selected: '&8» &cNo Display is currently selected.'
+    not-existing-material: '&8» &cMaterial &#7db597%material% &cdoes not exist.'
+    invalid-material: '&8» &cMaterial &#7db597%material% &cis not a block.'
+    success: '&8» &#48ab76Block Updated.'
   settext:
     description:
-      - '&b&lSet Text for TextDisplays'
+      - '&#48ab76&lSet Text for TextDisplays'
       - ''
-      - '&e[text] &b- Text to set'
+      - '&8• &#7db597[text] &8» &fText to set'
     params: '[text]'
-    wrong-type: '&4[&cDisplayEntities&4] &cSelected display is not a Text Display'
-    none-selected: '&4[&cDisplayEntities&4] &cNo Display is selected'
-    success: '&9[&fDisplayEntities&9] &aText Updated'
+    wrong-type: '&8» &cSelected display is not a Text Display.'
+    none-selected: '&8» &cNo Display is currently selected.'
+    success: '&8» &#48ab76Text Updated.'
 editor:
-  reminder: "&6You are on (Display) Editor Mode"
+  reminder: '&#7db597You are currently in Display Editor Mode.'
   all:
     page:
-      - '&6Change Page'
-      - '&bLeft/Right &9➤ &bChange Editor page'
+      - '&#48ab76Change Page'
+      - '&8• &fLeft/Right Click &8» &#7db597Change Editor page'
       - ''
-      - '&bYou can also change page by pressing F'
+      - '&7You can also switch pages by pressing F'
     exit:
-      - '&6Exit editor'
+      - '&#48ab76Exit Editor'
     select:
-      - '&6Select Nearest Display'
-      - '&bAny &9➤ &bSelect nearest Display'
+      - '&#48ab76Select Nearest Display'
+      - '&8• &fAny Click &8» &#7db597Select nearest Display'
   position:
     x:
-      - '&6Move X coordinate (Offset: &e%x_offset%&6)'
-      - '&bLeft &9➤ &bDecrease by %move_coarse%'
-      - '&bRight &9➤ &bIncrease by %move_coarse%'
-      - '&bShift+Left &9➤ &bDecrease by %move_fine%'
-      - '&bShift+Right &9➤ &bIncrease by %move_fine%'
+      - '&#48ab76Move X Coordinate &f(%x_offset%)'
+      - '&8• &fLeft/Right &8» &#7db597Change by %move_coarse%'
+      - '&8• &fShift+L/R &8» &#7db597Change by %move_fine%'
     y:
-      - '&6Move Y coordinate (Offset: &e%y_offset%&6)'
-      - '&bLeft &9➤ &bDecrease by %move_coarse%'
-      - '&bRight &9➤ &bIncrease by %move_coarse%'
-      - '&bShift+Left &9➤ &bDecrease by %move_fine%'
-      - '&bShift+Right &9➤ &bIncrease by %move_fine%'
+      - '&#48ab76Move Y Coordinate &f(%y_offset%)'
+      - '&8• &fLeft/Right &8» &#7db597Change by %move_coarse%'
+      - '&8• &fShift+L/R &8» &#7db597Change by %move_fine%'
     z:
-      - '&6Move Z coordinate (Offset: &e%z_offset%&6)'
-      - '&bLeft &9➤ &bDecrease by %move_coarse%'
-      - '&bRight &9➤ &bIncrease by %move_coarse%'
-      - '&bShift+Left &9➤ &bDecrease by %move_fine%'
-      - '&bShift+Right &9➤ &bIncrease by %move_fine%'
+      - '&#48ab76Move Z Coordinate &f(%z_offset%)'
+      - '&8• &fLeft/Right &8» &#7db597Change by %move_coarse%'
+      - '&8• &fShift+L/R &8» &#7db597Change by %move_fine%'
     teleport:
-      - '&6Teleport to your location'
-      - '&bRight &9➤ &bteleport to your feets'
-      - '&bLeft &9➤ &bteleport to your eyes'
+      - '&#48ab76Teleport to your location'
+      - '&8• &fRight Click &8» &#7db597Teleport to feet'
+      - '&8• &fLeft Click &8» &#7db597Teleport to eyes'
     reset:
-      - '&6Round location'
-      - '&bAny &9➤ &bRound XYZ location to an int value'
+      - '&#48ab76Round Location'
+      - '&8• &fAny Click &8» &#7db597Round XYZ to nearest block'
+  translation:
+    x:
+      - '&#48ab76X Offset from Origin &f(%x_trans%)'
+      - '&7Shifts the visual model along the X axis'
+      - '&7away from its invisible origin.'
+      - '&8• &fLeft/Right &8» &#7db597Change by %move_coarse%'
+      - '&8• &fShift+L/R &8» &#7db597Change by %move_fine%'
+    y:
+      - '&#48ab76Y Offset from Origin &f(%y_trans%)'
+      - '&7Shifts the visual model along the Y axis'
+      - '&7away from its invisible origin.'
+      - '&8• &fLeft/Right &8» &#7db597Change by %move_coarse%'
+      - '&8• &fShift+L/R &8» &#7db597Change by %move_fine%'
+    z:
+      - '&#48ab76Z Offset from Origin &f(%z_trans%)'
+      - '&7Shifts the visual model along the Z axis'
+      - '&7away from its invisible origin.'
+      - '&8• &fLeft/Right &8» &#7db597Change by %move_coarse%'
+      - '&8• &fShift+L/R &8» &#7db597Change by %move_fine%'
+    origin_to_player:
+      - '&#48ab76Set Origin to Player'
+      - '&8• &fAny Click &8» &#7db597Moves the invisible origin to you'
+      - '&7but keeps the visuals exactly where they are.'
+      - '&7(Perfect for setting up swinging doors or orbits!)'
+    reset:
+      - '&#48ab76Reset Visual Offset'
+      - '&8• &fAny Click &8» &#7db597Reset offset to 0,0,0'
+      - '&7(Snaps the model back to its true origin)'
   rotation:
     x:
-      - '&6Rotate on X axis (Rotation: &e%x_degree%&6°)'
-      - '&bLeft &9➤ &bDecrease by %rotate_coarse%°'
-      - '&bRight &9➤ &bIncrease by %rotate_coarse%°'
-      - '&bShift+Left &9➤ &bDecrease by %rotate_fine%°'
-      - '&bShift+Right &9➤ &bIncrease by %rotate_fine%°'
+      - '&#48ab76Rotate X Axis &f(%mode%)'
+      - '&8  &fRotation: &#7db597%x_degree%°'
+      - '&8• &fLeft/Right &8» &#7db597Rotate by %rotate_coarse%°'
+      - '&8• &fShift+L/R &8» &#7db597Rotate by %rotate_fine%°'
     y:
-      - '&6Rotate on Y axis (Rotation: &e%y_degree%&6°)'
-      - '&bLeft &9➤ &bDecrease by %rotate_coarse%°'
-      - '&bRight &9➤ &bIncrease by %rotate_coarse%°'
-      - '&bShift+Left &9➤ &bDecrease by %rotate_fine%°'
-      - '&bShift+Right &9➤ &bIncrease by %rotate_fine%°'
+      - '&#48ab76Rotate Y Axis &f(%mode%)'
+      - '&8  &fRotation: &#7db597%y_degree%°'
+      - '&8• &fLeft/Right &8» &#7db597Rotate by %rotate_coarse%°'
+      - '&8• &fShift+L/R &8» &#7db597Rotate by %rotate_fine%°'
     z:
-      - '&6Rotate on Z axis (Rotation: &e%z_degree%&6°)'
-      - '&bLeft &9➤ &bDecrease by %rotate_coarse%°'
-      - '&bRight &9➤ &bIncrease by %rotate_coarse%°'
-      - '&bShift+Left &9➤ &bDecrease by %rotate_fine%°'
-      - '&bShift+Right &9➤ &bIncrease by %rotate_fine%°'
+      - '&#48ab76Rotate Z Axis &f(%mode%)'
+      - '&8  &fRotation: &#7db597%z_degree%°'
+      - '&8• &fLeft/Right &8» &#7db597Rotate by %rotate_coarse%°'
+      - '&8• &fShift+L/R &8» &#7db597Rotate by %rotate_fine%°'
+    toggle:
+      - '&#48ab76Toggle Rotation Pivot'
+      - '&fCurrent: &#7db597%value% Rotation'
+      - '&8• &fAny Click &8» &#7db597Switch Left/Right Rotation'
     mode:
-      - '&6Change rotation Mode (Current: &e%value%&6)'
-      - '&bRight/Left &9➤ &bChange Mode'
-      - ''
-      - '&7It''s a Client side rotation'
+      - '&#48ab76Change Billboard Tracking &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Change billboard mode'
     reset:
-      - '&6Reset rotation'
-      - '&bAny &9➤ &bSet rotation on X, Y, Z axis as 0°'
+      - '&#48ab76Reset Rotation'
+      - '&8• &fAny Click &8» &#7db597Reset X, Y, Z rotation to 0°'
   scale:
     all:
-      - '&6Scale X, Y, Z (Scale: &e%x_scale%&6, &e%y_scale%&6, &e%z_scale%&6)'
-      - '&bLeft &9➤ &bDecrease by %scale_coarse%'
-      - '&bRight &9➤ &bIncrease by %scale_coarse%'
-      - '&bShift+Left &9➤ &bDecrease by %scale_fine%'
-      - '&bShift+Right &9➤ &bIncrease by %scale_fine%'
+      - '&#48ab76Scale All Axes &f(%x_scale%, %y_scale%, %z_scale%)'
+      - '&8• &fLeft/Right &8» &#7db597Change by %scale_coarse%'
+      - '&8• &fShift+L/R &8» &#7db597Change by %scale_fine%'
     x:
-      - '&6Scale X (Scale: &e%x_scale%&6)'
-      - '&bLeft &9➤ &bDecrease by %scale_coarse%'
-      - '&bRight &9➤ &bIncrease by %scale_coarse%'
-      - '&bShift+Left &9➤ &bDecrease by %scale_fine%'
-      - '&bShift+Right &9➤ &bIncrease by %scale_fine%'
+      - '&#48ab76Scale X Axis &f(%x_scale%)'
+      - '&8• &fLeft/Right &8» &#7db597Change by %scale_coarse%'
+      - '&8• &fShift+L/R &8» &#7db597Change by %scale_fine%'
     y:
-      - '&6Scale Y (Scale: &e%y_scale%&6)'
-      - '&bLeft &9➤ &bDecrease by %scale_coarse%'
-      - '&bRight &9➤ &bIncrease by %scale_coarse%'
-      - '&bShift+Left &9➤ &bDecrease by %scale_fine%'
-      - '&bShift+Right &9➤ &bIncrease by %scale_fine%'
+      - '&#48ab76Scale Y Axis &f(%y_scale%)'
+      - '&8• &fLeft/Right &8» &#7db597Change by %scale_coarse%'
+      - '&8• &fShift+L/R &8» &#7db597Change by %scale_fine%'
     z:
-      - '&6Scale Z (Scale: &e%z_scale%&6)'
-      - '&bLeft &9➤ &bDecrease by %scale_coarse%'
-      - '&bRight &9➤ &bIncrease by %scale_coarse%'
-      - '&bShift+Left &9➤ &bDecrease by %scale_fine%'
-      - '&bShift+Right &9➤ &bIncrease by %scale_fine%'
+      - '&#48ab76Scale Z Axis &f(%z_scale%)'
+      - '&8• &fLeft/Right &8» &#7db597Change by %scale_coarse%'
+      - '&8• &fShift+L/R &8» &#7db597Change by %scale_fine%'
     reset:
-      - '&6Reset scale'
-      - '&bAny &9➤ &bSet scale to 1'
+      - '&#48ab76Reset Scale'
+      - '&8• &fAny Click &8» &#7db597Set scale to 1x'
   shadow:
     skylight:
-      - '&6Sets Sky Light'
-      - '&bRight &9➤ &bIncrease Light'
-      - '&bLeft &9➤ &bDecrease Light'
-      - '&bShift+Right/left &9➤ &bReset to natural'
+      - '&#48ab76Set Sky Light'
+      - '&8• &fRight Click &8» &#7db597Increase light'
+      - '&8• &fLeft Click &8» &#7db597Decrease light'
+      - '&8• &fShift+L/R &8» &#7db597Reset to natural'
     blocklight:
-      - '&6Sets Block Light'
-      - '&bRight &9➤ &bIncrease Light'
-      - '&bLeft &9➤ &bDecrease Light'
-      - '&bShift+Right/left &9➤ &bReset to natural'
+      - '&#48ab76Set Block Light'
+      - '&8• &fRight Click &8» &#7db597Increase light'
+      - '&8• &fLeft Click &8» &#7db597Decrease light'
+      - '&8• &fShift+L/R &8» &#7db597Reset to natural'
     see_distance:
-      - '&6Change See distance (Current: &e%value%&6)'
-      - '&bLeft &9➤ &bDecrease by 4'
-      - '&bRight &9➤ &bIncrease by 4'
-      - '&bShift+Left &9➤ &bDecrease by 1'
-      - '&bShift+Right &9➤ &bIncrease by 1'
+      - '&#48ab76Change View Distance &f(%value% blocks)'
+      - '&8• &fLeft/Right &8» &#7db597Change by 4'
+      - '&8• &fShift+L/R &8» &#7db597Change by 1'
+    reset:
+      - '&#48ab76Reset Lighting'
+      - '&8• &fAny Click &8» &#7db597Inherit lighting from world'
   entity_specific:
-    text_background_red:
-      - '&6Change the amount of Red on Background (Current: &e%value%&6)'
-      - '&bLeft &9➤ &bDecrease by 16'
-      - '&bRight &9➤ &bIncrease by 16'
-      - '&bShift+Left &9➤ &bDecrease by 1'
-      - '&bShift+Right &9➤ &bIncrease by 1'
-    text_background_GOLD:
-      - '&6Change the amount of GOLD on Background (Current: &e%value%&6)'
-      - '&bLeft &9➤ &bDecrease by 16'
-      - '&bRight &9➤ &bIncrease by 16'
-      - '&bShift+Left &9➤ &bDecrease by 1'
-      - '&bShift+Right &9➤ &bIncrease by 1'
-    text_background_blue:
-      - '&6Change the amount of Blue on Background (Current: &e%value%&6)'
-      - '&bLeft &9➤ &bDecrease by 16'
-      - '&bRight &9➤ &bIncrease by 16'
-      - '&bShift+Left &9➤ &bDecrease by 1'
-      - '&bShift+Right &9➤ &bIncrease by 1'
+    text_background_color:
+      - '&#48ab76Background Color &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle colors'
+      - '&8• &fShift+Click &8» &#7db597Enter Hex/Legacy Color'
     text_background_alpha:
-      - '&6Change the Opacity of Background (Current: &e%value%&6)'
-      - '&bLeft &9➤ &bDecrease by 16'
-      - '&bRight &9➤ &bIncrease by 16'
-      - '&bShift+Left &9➤ &bDecrease by 1'
-      - '&bShift+Right &9➤ &bIncrease by 1'
+      - '&#48ab76Background Opacity &f(%bg_alpha%)'
+      - '&8• &fLeft/Right &8» &#7db597Change by 15'
+      - '&8• &fShift+L/R &8» &#7db597Change by 3'
+    text_opacity:
+      - '&#48ab76Text Opacity &f(%text_alpha%)'
+      - '&8• &fLeft/Right &8» &#7db597Change by 15'
+      - '&8• &fShift+L/R &8» &#7db597Change by 3'
     text_alignment:
-      - '&6Change Text Alignment (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bchange value'
+      - '&#48ab76Change Text Alignment &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle options'
+    text_see_through:
+      - '&#48ab76Toggle See-Through &f(%value%)'
+      - '&8• &fAny Click &8» &#7db597Toggle displaying through blocks'
+    text_line_width:
+      - '&#48ab76Change Line Width &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Change by 10'
+      - '&8• &fShift+L/R &8» &#7db597Change by 50'
     item_view:
-      - '&6Change Item view (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Change Item View &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle perspectives'
     item_glow:
-      - '&6Toggle Glow'
-      - '&bAny &9➤ &bToggle'
+      - '&#48ab76Toggle Enchantment Glow'
+      - '&8• &fAny Click &8» &#7db597Toggle effect'
       - ''
-      - '&7Some items can''t be affected by glow status'
-      - '&7(Heads, enchanted books, ...)'
+      - '&7Note: Some items can''t glow natively.'
     item_modeldata:
-      - '&6Change Custom Model Data (Current: &e%current%&6)'
-      - '&bLeft &9➤ &bDecrease by %value%'
-      - '&bRight &9➤ &bIncrease by %value%'
-      - '&bShift+Left &9➤ &bDecrease %shift-value%'
-      - '&bShift+Right &9➤ &bIncrease %shift-value%'
+      - '&#48ab76Change Custom Model Data &f(%current%)'
+      - '&8• &fLeft/Right &8» &#7db597Change by %value%'
+      - '&8• &fShift+L/R &8» &#7db597Change by %shift-value%'
     block_ageable:
-      - '&6Ageable (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Ageable &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_power:
-      - '&6Power (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Power &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_attachable:
-      - '&6Attachable (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Attachable &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_bambooleaves:
-      - '&6Bamboo Leaves (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Bamboo Leaves &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_bedpart:
-      - '&6Bed Part (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Bed Part &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_honeylevel:
-      - '&6Honey Level (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Honey Level &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_bellattachment:
-      - '&6Bell Attachment (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Bell Attachment &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_bigdripleaftilt:
-      - '&6BigDripleaf Tilt (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Big Dripleaf Tilt &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_bisectedhalf:
-      - '&6Bisected Half (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Bisected Half &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_cakebites:
-      - '&6Bites (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Bites &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_candles:
-      - '&6Candles Amount (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Candles Amount &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_berries:
-      - '&6Berries (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Berries &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_chesttype:
-      - '&6Chest Type (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Chest Type &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_comparatormode:
-      - '&6Comparator Mode (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Comparator Mode &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_inverted:
-      - '&6Inverted Level (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Inverted Level &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_directional:
-      - '&6Face Direction (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Face Direction &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_hinge:
-      - '&6Hinge (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Hinge &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_hydration:
-      - '&6Hydration (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Hydration &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_eye:
-      - '&6Eye (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Eye &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_gatewall:
-      - '&6Wall (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Wall &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_hanging:
-      - '&6Hanging (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Hanging &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_jigsaworientation:
-      - '&6Jigsaw Orientation (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Jigsaw Orientation &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_level:
-      - '&6Level (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Level &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_lit:
-      - '&6Lit (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Lit &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_open:
-      - '&6Open (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Open &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_axis:
-      - '&6Axis (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Axis &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_extended:
-      - '&6Extended (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Extended &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_short:
-      - '&6Short (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Short &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_dripstonethickness:
-      - '&6Thickness (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Thickness &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_powered:
-      - '&6Powered (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Powered &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_railshape:
-      - '&6Rail Shape (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Rail Shape &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_delay:
-      - '&6Delay (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Delay &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_locked:
-      - '&6Locked (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Locked &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_charges:
-      - '&6Charges (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Charges &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_rotation:
-      - '&6Rotation (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Rotation &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_bottom:
-      - '&6Bottom (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Bottom &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_bloom:
-      - '&6Bloom (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Bloom &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_sculkphase:
-      - '&6Sculk Phase (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Sculk Phase &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_shrieking:
-      - '&6Shrieking (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Shrieking &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_cansummon:
-      - '&6Can summon (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Can Summon &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_pickles:
-      - '&6Pickles Amount (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Pickle Amount &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_slabtype:
-      - '&6Slab Type (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Slab Type &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_layers:
-      - '&6Layers (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Layers &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_snowy:
-      - '&6Snowy (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Snowy &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_stairsshape:
-      - '&6Stairs Shape (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Stair Shape &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_pistontype:
-      - '&6Piston Type (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Piston Type &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_disarmed:
-      - '&6Disarmed (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Disarmed &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_eggs:
-      - '&6Eggs Amount (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Egg Amount &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_hatch:
-      - '&6Hatch (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Hatch &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_wallup:
-      - '&6Up (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Up &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_waterlogged:
-      - '&6Waterlogged (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Waterlogged &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_dusted:
-      - '&6Dusted (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Dusted &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_floweramount:
-      - '&6Flower Amount (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Flower Amount &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_books1:
-      - '&6Layer 1 Books (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Layer 1 Books &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_books2:
-      - '&6Layer 2 Books (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Layer 2 Books &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_brewingstandbottles:
-      - '&6Bottles (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Bottles &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_attachedface:
-      - '&6Attached Face (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Attached Face &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_multiplefacing:
-      - '&6Attached Face (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Multiple Facing &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_redstonewire1:
-      - '&6Redstone wire connection North & East (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Wire Connection (North & East) &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_redstonewire2:
-      - '&6Redstone wire connection South & West (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Wire Connection (South & West) &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_wallheight1:
-      - '&6Wall connection North & East (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Wall Connection (North & East) &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
     block_wallheight2:
-      - '&6Wall connection South & West (Current: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bChange value'
+      - '&#48ab76Wall Connection (South & West) &f(%value%)'
+      - '&8• &fLeft/Right &8» &#7db597Cycle values'
   copy_paste:
     select:
-      - '&6Select Nearest Display'
-      - '&bLeft &9➤ &bSelect nearest Display'
-      - '&bRight &9➤ &bOpen a gui for nearest entities'
+      - '&#48ab76Select Nearest Display'
+      - '&8» &fLeft Click &8• &#7db597Select nearest Display'
+      - '&8» &fRight Click &8• &#7db597Open nearby entities GUI'
     copypaste_soon:
-      - '&6Copy and Paste (Coming soon)'
+      - '&#48ab76Copy and Paste (Coming soon)'
     copy:
-      - '&6Copy selected Display'
+      - '&#48ab76Copy Selected Display'
     copyrange:
-      - '&6Copy all entities in a radius of %radius% blocks'
-      - '&bLeft &9➤ &bSelect all near entities'
-      - '&bRight &9➤ &bOpen a gui of near entities'
+      - '&#48ab76Copy Near Entities &f(Radius: %radius% blocks)'
+      - '&8» &fLeft Click &8• &#7db597Select all nearby entities'
+      - '&8» &fRight Click &8• &#7db597Open nearby entities GUI'
     paste:
-      - '&6Paste copied entities to your location (Copied: &e%value%&6)'
-      - '&bLeft/Right &9➤ &bPaste to your block location'
-      - '&bShift Left/Right &9➤ &bPaste to your exact location'
+      - '&#48ab76Paste Copied Entities &f(Copied: %value%)'
+      - '&8» &fLeft/Right &8• &#7db597Paste to block location'
+      - '&8» &fShift+L/R &8• &#7db597Paste to exact location'
     undo:
-      - '&6Undo your last paste'
+      - '&#48ab76Undo Paste'
+      - '&8» &fAny Click &8• &#7db597Undo your last paste'
     paste_rotate:
-      - '&6Change paste rotation degrees (Current: &e%value%&6°)'
-      - '&bLeft/Right &9➤ &bRotate by 90°'
-      - '&bShift Left/Right &9➤ &bRotate by 5°'
+      - '&#48ab76Paste Rotation &f(%value%°)'
+      - '&8» &fLeft/Right &8• &#7db597Rotate by 90°'
+      - '&8» &fShift+L/R &8• &#7db597Rotate by 5°'
+    copy_selected:
+      - '&#48ab76Copy Selected Entities'
+      - '&8» &fAny Click &8• &#7db597Copy all currently selected entities'
 DisplayEntitiesreload:
-  success: '&9[&fDisplayEntities&9] &aReloaded'
+  success: '&8» &#48ab76Plugin Reloaded Successfully.'
 gui:
   select_item:
-    title: "&9Select Item"
+    title: '&#7db597Select Item'
     info:
-      - "&6&lInstructions"
-      - "&bClick the item you want to set from the above inventory"
-      - "&babove inventory contains the items in your inventory"
-      - "&b(offhand and equipment not included)"
-      - "&bbefore entering on display editor mode"
+      - '&#48ab76&lInstructions'
+      - '&fClick the item you want to set from the inventory.'
+      - '&7(Equipment and offhand items not included)'
   select_entity:
-    title: "&9Select Entity"
+    title: '&#7db597Select Entity'
     info_copy:
-      - "&6&lID: &e&l%uuid%"
-      - "&bName: &e%customname%"
-      - "&bType: &e%type%"
-      - ""
-      - "&6Selected? &e%selected%"
-      - "&bClick to select/deselect this Entity"
+      - '&#48ab76ID: &f%uuid%'
+      - '&#7db597Name: &f%customname%'
+      - '&#7db597Type: &f%type%'
+      - ''
+      - '&#7db597Selected? &f%selected%'
+      - '&8» &fClick to select/deselect'
     info_select:
-      - "&6&lID: &e&l%uuid%"
-      - "&bName: &e%customname%"
-      - "&bType: &e%type%"
-      - ""
-      - "&6Selected? &e%selected%"
-      - "&bClick to select this Display"
+      - '&#48ab76ID: &f%uuid%'
+      - '&#7db597Name: &f%customname%'
+      - '&#7db597Type: &f%type%'
+      - ''
+      - '&#7db597Selected? &f%selected%'
+      - '&8» &fClick to select this Display'
   previous-page:
-    #Holders: %player_name% %page% %target_page%
     description:
-      - '&6&lPrevious Page'
+      - '&#48ab76&lPrevious Page'
       - ''
-      - '&7[&fClick&7]&b Go to page &e%target_page%'
+      - '&8» &fClick to go to page &#7db597%target_page%'
   next-page:
-    #Holders: %player_name% %page% %target_page%
     description:
-      - '&6&lNext Page'
+      - '&#48ab76&lNext Page'
       - ''
-      - '&7[&fClick&7]&b Go to page &e%target_page%'
+      - '&8» &fClick to go to page &#7db597%target_page%'
   back:
-    #Holders: %player_name%
     description:
-      - '&6&lGo Back'
+      - '&#48ab76&lGo Back'
       - ''
-      - '&7[&fClick&7]&b Go to previous gui'
+      - '&8» &fClick to return'
+displayentities:
+  select:
+    none-found: ''
+    success: ''
+    params: ''
+    description: []
+    selected-multiple: '5'
+  editor:
+    success-enabled: ''
+    params: ''
+    description: []
+  create:
+    success-text: ''
+    success-block: ''
+    params: ''
+    description: []
+    success-item: ''
+    wrong-block-type: ''
+  delete:
+    success: ''
+    params: ''
+    description: []
+    none-selected: ''
+  settext:
+    success: ''
+    params: ''
+    description: []
+    none-selected: ''
+  help-header: '&#7db597&lDisplayEntities &8• &fHelp'
+  deselect:
+    params: ''
+    description: []
+    success: ''
+    none-selected: ''
+  setitem:
+    params: ''
+    description: []
+    success: ''
+    none-selected: ''
+  setblock:
+    params: ''
+    description: []
